@@ -1,9 +1,9 @@
 import "./style.css";
 
-const Header = () => {
+const Header = () => (
     <header className="header">
         
     </header>
-};
+);
 
 export default Header;

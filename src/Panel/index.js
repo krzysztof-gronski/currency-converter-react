@@ -1,7 +1,7 @@
 import "./style.css";
 
-const Panel = ({ body }) => {
+const Panel = ({ body }) => (
     <p className="form__paragraph">{body}</p>
-};
+);
 
 export default Panel;
