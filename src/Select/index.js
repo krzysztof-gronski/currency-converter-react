@@ -1,15 +1,17 @@
 import { useState } from "react";
 import "./style.css";
 
-const Select = ({ currencies }) => {
-    const [currency, setCurrency] = useState(currencies[0].symbol);
+const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
 
     return (
         <select
             className="form__select"
             name=""
             value={currency}
-            onChange={({ target }) => setCurrency(target.value)}
+            onChange={({ target }) => {
+                setCurrency(target.value);
+                calculateResult(target.value);
+            }}
         >
             {currencies.map((currency=>(
                 <option

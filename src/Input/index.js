@@ -1,15 +1,17 @@
-import {useState} from "react";
 import "./style.css";
 
-const Input = () => {
-    const [amount,setAmount] = useState("0.00");
+const Input = ({amount, setAmount, calculateResult}) => {
     return(  
         <input 
         className="form__input" 
         name="" 
         type="number" 
         value={amount}
-        onChange={({target})=>setAmount(target.value)}
+        onChange={({target})=>{
+            setAmount(target.value);
+            alert(target.value);
+            calculateResult(target.value);
+        }}
         min="0" 
         step="0.01"
         />

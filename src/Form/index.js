@@ -4,11 +4,31 @@ import Select from "../Select";
 import Input from "../Input";
 import Panel from "../Panel";
 
-const Form = ({currencies, rates}) => {
-    const [currencyFrom, setCurrencyFrom] = useState();
-    const [currencyTo, setCurrencyTo] = useState();
-    const [amountFrom, setAmountFrom] = useState();
-    const [amountTo, setAmountTo] = useState();
+const Form = ({currencies, rates, calculateResult}) => {
+    const [currencyFrom, setCurrencyFrom] = useState(currencies[0].symbol);
+    const [currencyTo, setCurrencyTo] = useState(currencies[1].symbol);
+    const [amountFrom, setAmountFrom] = useState("0.00");
+    const [amountTo, setAmountTo] = useState("0.00");
+    const [resultFieldTo, setResultFieldTo] = useState(true);
+
+    const calculateFromTo = (amountFromTemp) =>{
+        setAmountTo(calculateResult(currencyFrom,currencyTo,amountFromTemp));
+    };
+
+    const calculateToFrom = (amountFromTemp) =>{
+        setAmountFrom(calculateResult(currencyTo,currencyFrom,amountFromTemp));
+    };
+
+    const calculateFromToSelect = (currencyFromTemp) =>{
+        setAmountTo(calculateResult(currencyFromTemp,currencyTo,amountFrom));
+    };
+
+    const calculateToFromSelect = (currencyFromTemp) =>{
+         setAmountFrom(calculateResult(currencyFromTemp,currencyFrom,amountTo));
+     };
+    
+
+    
 
     return (
         <form className="form js-form">
@@ -17,16 +37,16 @@ const Form = ({currencies, rates}) => {
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input />
-                            <Select currencies={currencies}/>
+                            <Input amount={amountFrom} setAmount={setAmountFrom} calculateResult={calculateFromTo}/>
+                            <Select currencies={currencies} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect}/>
                         </React.Fragment>
                     }
                 />
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input />
-                            <Select currencies={currencies}/>
+                            <Input amount={amountTo} setAmount={setAmountTo} calculateResult={calculateToFrom}/>
+                            <Select currencies={currencies} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect}/>
                         </React.Fragment>
                     }
                 />
