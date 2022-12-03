@@ -7,12 +7,10 @@ import { currencies, rates } from "./currencies";
 
 
 function App() {
-  //const [result, setResult] = useState();
   const calculateResult = (currencyFrom, currencyTo, amountFrom) => {
     const selectedPair = currencyFrom + currencyTo;
     const rate = rates.find(({ pair }) => pair === selectedPair).rate;
-    const amountTo = amountFrom*rate;
-    alert(`${amountFrom} * ${rate} ${currencyFrom}${currencyTo}`)
+    const amountTo = (amountFrom*rate).toFixed(2);
     return amountTo;
   };
 

@@ -27,6 +27,22 @@ const Form = ({currencies, rates, calculateResult}) => {
          setAmountFrom(calculateResult(currencyFromTemp,currencyFrom,amountTo));
      };
     
+     const validate = (newAmount, amountFrom) =>{
+        if ((newAmount === "") && (amountFrom !== 0)) {
+            newAmount = 0;
+
+        }
+        if (newAmount < 0) {
+            newAmount = 0;
+        }
+        if (newAmount > 0) {
+
+            if ((newAmount.includes(".")) && (newAmount.indexOf(".") < newAmount.length - 3)) {
+                newAmount = amountFrom;
+            }
+        }
+        return !!newAmount ? parseFloat(newAmount) : "";
+     };
 
     
 
@@ -37,7 +53,7 @@ const Form = ({currencies, rates, calculateResult}) => {
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input amount={amountFrom} setAmount={setAmountFrom} calculateResult={calculateFromTo}/>
+                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo}/>
                             <Select currencies={currencies} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect}/>
                         </React.Fragment>
                     }
@@ -45,7 +61,7 @@ const Form = ({currencies, rates, calculateResult}) => {
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input amount={amountTo} setAmount={setAmountTo} calculateResult={calculateToFrom}/>
+                            <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom}/>
                             <Select currencies={currencies} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect}/>
                         </React.Fragment>
                     }

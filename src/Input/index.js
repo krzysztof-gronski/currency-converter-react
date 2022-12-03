@@ -1,6 +1,6 @@
 import "./style.css";
 
-const Input = ({amount, setAmount, calculateResult}) => {
+const Input = ({amount, setAmount, validate, calculateResult}) => {
     return(  
         <input 
         className="form__input" 
@@ -8,8 +8,7 @@ const Input = ({amount, setAmount, calculateResult}) => {
         type="number" 
         value={amount}
         onChange={({target})=>{
-            setAmount(target.value);
-            alert(target.value);
+            setAmount(validate(target.value, amount));
             calculateResult(target.value);
         }}
         min="0" 
