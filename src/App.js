@@ -10,7 +10,7 @@ function App() {
   const calculateResult = (currencyFrom, currencyTo, amountFrom) => {
     const selectedPair = currencyFrom + currencyTo;
     const rate = rates.find(({ pair }) => pair === selectedPair).rate;
-    const amountTo = (amountFrom*rate).toFixed(2);
+    const amountTo = (amountFrom * rate).toFixed(2);
     return amountTo;
   };
 

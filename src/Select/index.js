@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./style.css";
 
 const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
@@ -13,7 +12,7 @@ const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
                 calculateResult(target.value);
             }}
         >
-            {currencies.map((currency=>(
+            {currencies.map((currency => (
                 <option
                     key={currency.symbol}
                     value={currency.symbol}>
