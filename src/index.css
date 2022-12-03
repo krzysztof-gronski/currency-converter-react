@@ -13,7 +13,7 @@ html {
   background-color: #8d99ae;
   max-width: 1000px;
   margin: 0 auto;
-  background-image: url("img/currencyBackground.jpg");
+  background-image: url("./img/currencyBackground.jpg");
   background-repeat: no-repeat;
   background-size: cover;
 }
