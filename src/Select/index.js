@@ -20,7 +20,6 @@ const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
                 </option>
             )))};
         </select>
-
     );
 };
 

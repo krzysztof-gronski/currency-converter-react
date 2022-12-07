@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import Main from "./Main";
 import Form from "./Form";
-import Header from "./Header";
+import Time from "./Time";
 import Footer from "./Footer";
 import { currencies, rates } from "./currencies";
 
@@ -16,8 +16,9 @@ function App() {
 
   return (
     <React.Fragment>
-      <Header />
+
       <Main>
+        <Time />
         <Form currencies={currencies} rates={rates} calculateResult={calculateResult}>
         </Form>
       </Main>
