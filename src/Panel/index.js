@@ -1,7 +1,7 @@
-import "./style.css";
+import { StyledParagraph } from "./styled";
 
 const Panel = ({ body }) => (
-    <p className="form__paragraph">{body}</p>
+    <StyledParagraph>{body}</StyledParagraph>
 );
 
 export default Panel;

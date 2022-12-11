@@ -1,10 +1,9 @@
-import "./style.css";
+import { StyledSelect } from "./styled";
 
 const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
 
     return (
-        <select
-            className="form__select"
+        <StyledSelect
             name=""
             value={currency}
             onChange={({ target }) => {
@@ -19,7 +18,7 @@ const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
                     {currency.symbol}
                 </option>
             )))};
-        </select>
+        </StyledSelect>
     );
 };
 

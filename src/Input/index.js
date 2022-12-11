@@ -1,9 +1,8 @@
-import "./style.css";
+import { StyledInput } from "./styled";
 
 const Input = ({ amount, setAmount, validate, calculateResult }) => {
     return (
-        <input
-            className="form__input"
+        <StyledInput
             name=""
             type="number"
             value={amount}

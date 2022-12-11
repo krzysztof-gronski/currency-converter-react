@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import "./style.css";
+import { StyledTimeContainer } from "./styled";
 
 const Time = () => {
-
     const [date, setDate] = useState(new Date());
-
     useEffect(() => {
         const intervalId = setInterval(() => {
             setDate(new Date());
@@ -25,12 +23,11 @@ const Time = () => {
     });
 
     return (
-        <div className="time__container">
-            <p className="time">
-                <>Current time: {formattedDate}</>
+        <StyledTimeContainer>
+            <p>
+                Current time: {formattedDate}
             </p>
-        </div>
-
+        </StyledTimeContainer>
     );
 };
 

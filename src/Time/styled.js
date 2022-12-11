@@ -1,4 +1,6 @@
-.time__container {
+import styled from "styled-components";
+
+export const StyledTimeContainer=styled.div`
     display: inline-block;
     color: white;
     font-size: 16px;
@@ -8,6 +10,4 @@
     margin: 80px 0 0 0;
     font-family: 'Rajdhani', sans-serif;
     font-weight: bold;
-}
-
-.time__label {}
+`;

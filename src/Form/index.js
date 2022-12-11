@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import "./style.css";
 import Select from "../Select";
 import Input from "../Input";
 import Panel from "../Panel";
+import {StyledForm, StyledFieldset, StyledLegend} from "./styled.js";
 
 const Form = ({ currencies, rates, calculateResult }) => {
     const [currencyFrom, setCurrencyFrom] = useState(currencies[0].symbol);
@@ -46,9 +46,9 @@ const Form = ({ currencies, rates, calculateResult }) => {
 
 
     return (
-        <form className="form js-form">
-            <fieldset className="form__fieldset">
-                <legend className="form__legend js-legend">INSTANT CURRENCY CONVERTER</legend>
+        <StyledForm>
+            <StyledFieldset>
+                <StyledLegend>INSTANT CURRENCY CONVERTER</StyledLegend>
                 <Panel
                     body={
                         <React.Fragment>
@@ -65,8 +65,8 @@ const Form = ({ currencies, rates, calculateResult }) => {
                         </React.Fragment>
                     }
                 />
-            </fieldset>
-        </form>
+            </StyledFieldset>
+        </StyledForm>
     );
 };
 

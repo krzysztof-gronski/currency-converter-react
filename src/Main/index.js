@@ -1,7 +1,5 @@
-import "./style.css";
-
 const Main = ({ children }) => (
-    <main className="main">
+    <main>
         {children}
     </main>
 )

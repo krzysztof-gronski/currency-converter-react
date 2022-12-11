@@ -1,4 +1,6 @@
-.form__input {
+import styled from "styled-components";
+
+export const StyledInput=styled.input`
     max-width: 360px;
     width: 100%;
     height: 80px;
@@ -10,10 +12,10 @@
     text-align: center;
     font-family: 'Rajdhani', sans-serif;
     appearance: none;
-}
 
-.form__input:hover {
-    color: #edf2f4;
-    background-color: #d90429;
-    cursor: pointer;
-}
+    &:hover{
+        color: #edf2f4;
+        background-color: #d90429;
+        cursor: pointer;
+    };
+`;
