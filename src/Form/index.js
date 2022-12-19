@@ -3,12 +3,14 @@ import Select from "../Select";
 import Input from "../Input";
 import Panel from "../Panel";
 import {StyledForm, StyledFieldset, StyledLegend} from "./styled.js";
+import {useCurrenciesData} from "../CurrenciesData/index";
 
 const Form = ({ currencies, rates, calculateResult }) => {
     const [currencyFrom, setCurrencyFrom] = useState(currencies[0].symbol);
     const [currencyTo, setCurrencyTo] = useState(currencies[1].symbol);
     const [amountFrom, setAmountFrom] = useState("0.00");
     const [amountTo, setAmountTo] = useState("0.00");
+    const currenciesSymbols = ["ov","oiyg"];//
 
     const calculateFromTo = (amountFromTemp) => {
         setAmountTo(calculateResult(currencyFrom, currencyTo, amountFromTemp));
@@ -53,7 +55,7 @@ const Form = ({ currencies, rates, calculateResult }) => {
                     body={
                         <React.Fragment>
                             <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} />
-                            <Select currencies={currencies} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} />
+                            <Select currencies={currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} />
                         </React.Fragment>
                     }
                 />
@@ -61,7 +63,7 @@ const Form = ({ currencies, rates, calculateResult }) => {
                     body={
                         <React.Fragment>
                             <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} />
-                            <Select currencies={currencies} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} />
+                            <Select currencies={currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} />
                         </React.Fragment>
                     }
                 />

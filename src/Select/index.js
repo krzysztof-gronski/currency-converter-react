@@ -13,9 +13,9 @@ const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
         >
             {currencies.map((currency => (
                 <option
-                    key={currency.symbol}
-                    value={currency.symbol}>
-                    {currency.symbol}
+                    key={currency}
+                    value={currency}>
+                    {currency}
                 </option>
             )))};
         </StyledSelect>
