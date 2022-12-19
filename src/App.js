@@ -6,9 +6,14 @@ import Footer from "./Footer";
 import { currencies, rates } from "./currencies";
 
 function App() {
-    const calculateResult = (currencyFrom, currencyTo, amountFrom) => {
-    const selectedPair = currencyFrom + currencyTo;
-    const rate = rates.find(({ pair }) => pair === selectedPair).rate;
+  const calculateRate = (currencyFrom, currencyTo) => {
+    const currenciesData = JSON.parse(localStorage.getItem("currenciesData"));
+    const currencyData = currenciesData.find(({ base }) => base === currencyFrom);
+    return currencyData.rates[currencyTo];
+  };
+
+  const calculateResult = (currencyFrom, currencyTo, amountFrom) => {
+    const rate = calculateRate(currencyFrom, currencyTo);
     const amountTo = (amountFrom * rate).toFixed(2);
     return amountTo;
   };

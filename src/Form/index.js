@@ -11,7 +11,6 @@ const Form = ({ currencies, rates, calculateResult }) => {
     const [amountFrom, setAmountFrom] = useState("0.00");
     const [amountTo, setAmountTo] = useState("0.00");
     const downloadStatus = useCurrenciesData();
-    const currenciesSymbols = ["EUR","USD"];
 
     const calculateFromTo = (amountFromTemp) => {
         setAmountTo(calculateResult(currencyFrom, currencyTo, amountFromTemp));
@@ -55,7 +54,7 @@ const Form = ({ currencies, rates, calculateResult }) => {
                         body={
                             <React.Fragment>
                                 <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} />
-                                <Select currencies={currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} />
+                                <Select currencies={JSON.parse(localStorage.getItem("currenciesSymbols"))} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} />
                             </React.Fragment>
                         }
                     />
@@ -63,7 +62,7 @@ const Form = ({ currencies, rates, calculateResult }) => {
                         body={
                             <React.Fragment>
                                 <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} />
-                                <Select currencies={currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} />
+                                <Select currencies={JSON.parse(localStorage.getItem("currenciesSymbols"))} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} />
                             </React.Fragment>
                         }
                     />
@@ -71,9 +70,12 @@ const Form = ({ currencies, rates, calculateResult }) => {
             </StyledForm>
         );
     }
-
-
-    
+    else if(downloadStatus==="rejected"){
+        alert("Network error");
+    }
+    else{
+        alert("Loading...");
+    }
 };
 
 export default Form;

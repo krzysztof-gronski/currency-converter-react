@@ -5,12 +5,10 @@ let currencyData;
 
 export const useCurrenciesData = () => {
     const [downloadStatus,setDownloadStatus] = useState("pending");
+    let currenciesSymbols=[];
 
     useEffect(()=>{
-        alert("jjj");
-        console.log("vbuvu");
         if (!downloaded) {
-            let currenciesSymbols;
             (async () => {
                 try {
                     const response = await fetch("https://api.exchangerate.host/latest?base=PLN");
@@ -19,12 +17,10 @@ export const useCurrenciesData = () => {
                     }
                     const currencyData = await response.json();
                     console.log(currencyData);
-                    //localStorage.setItem("currenciesData",JSON.stringify(currencyData));
-                    //localStorage.setItem("ratesTable",JSON.stringify(Object.keys(currencyData.rates)));
                     downloaded = true;
-                    //alert("fetch rates "+JSON.stringify(Object.keys(currencyData.rates)));
                     currenciesSymbols = Object.keys(currencyData.rates);
-                    //alert("fetch main2 "+currenciesSymbols);
+                    localStorage.setItem("currenciesSymbols",[]);
+                    localStorage.setItem("currenciesSymbols",JSON.stringify(currenciesSymbols));
     
                     localStorage.setItem("currenciesData",[]);
                     let newCurrenciesData=[];
@@ -35,12 +31,7 @@ export const useCurrenciesData = () => {
                                 throw new Error(response.statusText);
                             }
                             const currencyData = await response.json();
-                            //const newCurrenciesData = [...(localStorage.getItem("currenciesData")),currencyData];
                             newCurrenciesData = [...newCurrenciesData,currencyData];
-                            
-                            //localStorage.setItem("currenciesData",tab);
-                            //localStorage.setItem("ratesTable",JSON.stringify(Object.keys(currencyData.rates)));
-                        
                         }
                         catch (error) { console.error("Network error", error); }
                     };
@@ -63,7 +54,6 @@ export const useCurrenciesData = () => {
 
     },[]);
 
-    alert(downloadStatus);
     return downloadStatus;
 
 };
