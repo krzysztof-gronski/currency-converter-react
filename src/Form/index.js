@@ -6,11 +6,12 @@ import {StyledForm, StyledFieldset, StyledLegend} from "./styled.js";
 import {useCurrenciesData} from "../CurrenciesData/index";
 
 const Form = ({ currencies, rates, calculateResult }) => {
-    const [currencyFrom, setCurrencyFrom] = useState(currencies[0].symbol);
-    const [currencyTo, setCurrencyTo] = useState(currencies[1].symbol);
+    const [currencyFrom, setCurrencyFrom] = useState("EUR");
+    const [currencyTo, setCurrencyTo] = useState("USD");
     const [amountFrom, setAmountFrom] = useState("0.00");
     const [amountTo, setAmountTo] = useState("0.00");
-    const currenciesSymbols = ["ov","oiyg"];//
+    const downloadStatus = useCurrenciesData();
+    const currenciesSymbols = ["EUR","USD"];
 
     const calculateFromTo = (amountFromTemp) => {
         setAmountTo(calculateResult(currencyFrom, currencyTo, amountFromTemp));
@@ -45,31 +46,34 @@ const Form = ({ currencies, rates, calculateResult }) => {
         return !!newAmount ? parseFloat(newAmount) : "";
     };
 
+    if(downloadStatus==="resolved"){
+        return (
+            <StyledForm>
+                <StyledFieldset>
+                    <StyledLegend>INSTANT CURRENCY CONVERTER</StyledLegend>
+                    <Panel
+                        body={
+                            <React.Fragment>
+                                <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} />
+                                <Select currencies={currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} />
+                            </React.Fragment>
+                        }
+                    />
+                    <Panel
+                        body={
+                            <React.Fragment>
+                                <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} />
+                                <Select currencies={currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} />
+                            </React.Fragment>
+                        }
+                    />
+                </StyledFieldset>
+            </StyledForm>
+        );
+    }
 
 
-    return (
-        <StyledForm>
-            <StyledFieldset>
-                <StyledLegend>INSTANT CURRENCY CONVERTER</StyledLegend>
-                <Panel
-                    body={
-                        <React.Fragment>
-                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} />
-                            <Select currencies={currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} />
-                        </React.Fragment>
-                    }
-                />
-                <Panel
-                    body={
-                        <React.Fragment>
-                            <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} />
-                            <Select currencies={currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} />
-                        </React.Fragment>
-                    }
-                />
-            </StyledFieldset>
-        </StyledForm>
-    );
+    
 };
 
 export default Form;
