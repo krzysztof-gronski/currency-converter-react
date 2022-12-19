@@ -12,6 +12,14 @@ const formatDate = (date)=>{
     });
 };
 
+export const shortFormatDate = (date)=>{
+    return date.toLocaleString("en-US", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    });
+};
+
 const Time = () => {
     const date=useCurrentDate();
 

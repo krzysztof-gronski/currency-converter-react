@@ -5,16 +5,18 @@ let pending = false;
 const updateRequired = () => {
     const updateDate = new Date(localStorage.getItem("updateDate"));
     const currentDate = new Date();
-    
+
     if (pending) {
         return false;
     }
     else if (localStorage.getItem("updateDate")
+        && localStorage.getItem("currenciesData")
+        && localStorage.getItem("currenciesSymbols")
         && (updateDate.getFullYear() === currentDate.getFullYear()
             && updateDate.getMonth() === currentDate.getMonth()
             && updateDate.getDate() === currentDate.getDate())) {
         return false;
-        
+
     }
     return true;
 };
@@ -51,11 +53,12 @@ export const useCurrenciesData = () => {
                         }
                         catch (error) { console.error("Network error", error); }
                     };
+                    await new Promise((res) => setTimeout(res, 10000));
                     localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
                     localStorage.setItem("updateDate", new Date().toISOString());
                     setDownloadStatus("resolved");
-                    alert("resolved");
                     pending = false;
+
                 }
                 catch (error) {
                     setDownloadStatus("rejected");
@@ -63,7 +66,7 @@ export const useCurrenciesData = () => {
                 }
             })();
         }
-        else if(!pending){
+        else if (!pending) {
             setDownloadStatus("resolved");
         }
     }, []);

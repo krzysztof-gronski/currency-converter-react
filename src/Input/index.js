@@ -1,6 +1,6 @@
 import { StyledInput } from "./styled";
 
-const Input = ({ amount, setAmount, validate, calculateResult }) => {
+const Input = ({ amount, setAmount, validate, calculateResult, disabled }) => {
     return (
         <StyledInput
             name=""
@@ -12,6 +12,7 @@ const Input = ({ amount, setAmount, validate, calculateResult }) => {
             }}
             min="0"
             step="0.01"
+            disabled={disabled}
         />
     );
 };

@@ -1,6 +1,6 @@
 import { StyledSelect } from "./styled";
 
-const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
+const Select = ({ currencies, currency, setCurrency, calculateResult, disabled }) => {
 
     return (
         <StyledSelect
@@ -10,6 +10,7 @@ const Select = ({ currencies, currency, setCurrency, calculateResult }) => {
                 setCurrency(target.value);
                 calculateResult(target.value);
             }}
+            disabled={disabled}
         >
             {currencies.map((currency => (
                 <option
