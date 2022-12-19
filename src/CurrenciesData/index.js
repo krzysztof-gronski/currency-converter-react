@@ -1,14 +1,31 @@
 import { useState, useEffect } from "react";
 
-let downloaded = false;
-let currencyData;
+let pending = false;
+
+const updateRequired = () => {
+    const updateDate = new Date(localStorage.getItem("updateDate"));
+    const currentDate = new Date();
+    
+    if (pending) {
+        return false;
+    }
+    else if (localStorage.getItem("updateDate")
+        && (updateDate.getFullYear() === currentDate.getFullYear()
+            && updateDate.getMonth() === currentDate.getMonth()
+            && updateDate.getDate() === currentDate.getDate())) {
+        return false;
+        
+    }
+    return true;
+};
 
 export const useCurrenciesData = () => {
-    const [downloadStatus,setDownloadStatus] = useState("pending");
-    let currenciesSymbols=[];
+    const [downloadStatus, setDownloadStatus] = useState("pending");
+    let currenciesSymbols = [];
 
-    useEffect(()=>{
-        if (!downloaded) {
+    useEffect(() => {
+        if (updateRequired()) {
+            pending = true;
             (async () => {
                 try {
                     const response = await fetch("https://api.exchangerate.host/latest?base=PLN");
@@ -17,43 +34,38 @@ export const useCurrenciesData = () => {
                     }
                     const currencyData = await response.json();
                     console.log(currencyData);
-                    downloaded = true;
                     currenciesSymbols = Object.keys(currencyData.rates);
-                    localStorage.setItem("currenciesSymbols",[]);
-                    localStorage.setItem("currenciesSymbols",JSON.stringify(currenciesSymbols));
-    
-                    localStorage.setItem("currenciesData",[]);
-                    let newCurrenciesData=[];
-                    for(const currencySymbolIndex in currenciesSymbols){
+                    localStorage.setItem("currenciesSymbols", []);
+                    localStorage.setItem("currenciesSymbols", JSON.stringify(currenciesSymbols));
+
+                    localStorage.setItem("currenciesData", []);
+                    let newCurrenciesData = [];
+                    for (const currencySymbolIndex in currenciesSymbols) {
                         try {
                             const response = await fetch(`https://api.exchangerate.host/latest?base=${currenciesSymbols[currencySymbolIndex]}`);
                             if (!response.ok) {
                                 throw new Error(response.statusText);
                             }
                             const currencyData = await response.json();
-                            newCurrenciesData = [...newCurrenciesData,currencyData];
+                            newCurrenciesData = [...newCurrenciesData, currencyData];
                         }
                         catch (error) { console.error("Network error", error); }
                     };
-                    localStorage.setItem("currenciesData",JSON.stringify(newCurrenciesData));
+                    localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
+                    localStorage.setItem("updateDate", new Date().toISOString());
                     setDownloadStatus("resolved");
-                    
+                    alert("resolved");
+                    pending = false;
                 }
-                catch (error) { 
+                catch (error) {
                     setDownloadStatus("rejected");
-                    console.error("Network error", error);
-                 }
+                    console.error("Fetching data error: ", error);
+                }
             })();
-        
-               
         }
-        else {
-            
+        else if(!pending){
+            setDownloadStatus("resolved");
         }
-        
-
-    },[]);
-
+    }, []);
     return downloadStatus;
-
 };

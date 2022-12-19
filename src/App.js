@@ -3,7 +3,6 @@ import Main from "./Main";
 import Form from "./Form";
 import Time from "./Time";
 import Footer from "./Footer";
-import { currencies, rates } from "./currencies";
 
 function App() {
   const calculateRate = (currencyFrom, currencyTo) => {
@@ -23,7 +22,7 @@ function App() {
 
       <Main>
         <Time />
-        <Form currencies={currencies} rates={rates} calculateResult={calculateResult}>
+        <Form calculateResult={calculateResult}>
         </Form>
       </Main>
       <Footer />
