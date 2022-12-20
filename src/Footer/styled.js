@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledFooter=styled.footer`
+export const StyledFooter = styled.footer`
   color: #edf2f4;
   padding: 3px;
   text-align: center;

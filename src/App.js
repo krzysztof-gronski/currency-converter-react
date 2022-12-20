@@ -19,7 +19,6 @@ function App() {
 
   return (
     <React.Fragment>
-
       <Main>
         <Time />
         <Form calculateResult={calculateResult}>

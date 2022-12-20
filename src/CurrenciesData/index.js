@@ -5,7 +5,6 @@ let pending = false;
 const updateRequired = () => {
     const updateDate = new Date(localStorage.getItem("updateDate"));
     const currentDate = new Date();
-
     if (pending) {
         return false;
     }
@@ -16,16 +15,15 @@ const updateRequired = () => {
             && updateDate.getMonth() === currentDate.getMonth()
             && updateDate.getDate() === currentDate.getDate())) {
         return false;
-
     }
     return true;
 };
 
 export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("pending");
-    let currenciesSymbols = [];
-
+    
     useEffect(() => {
+        //let currenciesSymbols = [];
         if (updateRequired()) {
             pending = true;
             (async () => {
@@ -35,11 +33,9 @@ export const useCurrenciesData = () => {
                         throw new Error(response.statusText);
                     }
                     const currencyData = await response.json();
-                    console.log(currencyData);
-                    currenciesSymbols = Object.keys(currencyData.rates);
+                    const currenciesSymbols = Object.keys(currencyData.rates);
                     localStorage.setItem("currenciesSymbols", []);
                     localStorage.setItem("currenciesSymbols", JSON.stringify(currenciesSymbols));
-
                     localStorage.setItem("currenciesData", []);
                     let newCurrenciesData = [];
                     for (const currencySymbolIndex in currenciesSymbols) {
@@ -58,7 +54,6 @@ export const useCurrenciesData = () => {
                     localStorage.setItem("updateDate", new Date().toISOString());
                     setDownloadStatus("resolved");
                     pending = false;
-
                 }
                 catch (error) {
                     setDownloadStatus("rejected");

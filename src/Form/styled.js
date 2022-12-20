@@ -18,7 +18,6 @@ export const StyledSection = styled.section`
     font-weight: bold;
     border-radius:	20px 20px 0px 0px;
     
-
     ${(props) => props.bottom && css`
         display: flex;
         gap: 25px;
@@ -36,10 +35,6 @@ export const StyledSection = styled.section`
     display: none;
     };`
   }
-
-
-
-
 `;
 
 export const StyledFieldset = styled.fieldset`

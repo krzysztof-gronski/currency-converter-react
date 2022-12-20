@@ -1,7 +1,7 @@
 import { useCurrentDate } from "./useCurrentDate";
 import { StyledTimeContainer } from "./styled";
 
-const formatDate = (date)=>{
+const formatDate = (date) => {
     return date.toLocaleString("en-US", {
         weekday: "long",
         month: "long",
@@ -12,7 +12,7 @@ const formatDate = (date)=>{
     });
 };
 
-export const shortFormatDate = (date)=>{
+export const shortFormatDate = (date) => {
     return date.toLocaleString("en-US", {
         day: "numeric",
         month: "long",
@@ -21,8 +21,7 @@ export const shortFormatDate = (date)=>{
 };
 
 const Time = () => {
-    const date=useCurrentDate();
-
+    const date = useCurrentDate();
     return (
         <StyledTimeContainer>
             <p>

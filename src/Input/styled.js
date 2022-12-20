@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledInput=styled.input`
+export const StyledInput = styled.input`
     max-width: 360px;
     width: 100%;
     height: 80px;

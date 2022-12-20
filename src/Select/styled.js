@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const StyledSelect=styled.select`
+export const StyledSelect = styled.select`
         max-width: 180px;
         width: 100%;
         height: 80px;
