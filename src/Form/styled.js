@@ -22,6 +22,7 @@ export const StyledSection = styled.section`
     ${(props) => props.bottom && css`
         display: flex;
         gap: 25px;
+        margin: 0 auto;
         justify-content: center;
         margin-block-start: 7px;
         margin-block-end: 0px;
@@ -29,8 +30,14 @@ export const StyledSection = styled.section`
         margin-inline-end: 110px;
         font-size: 20px;
         padding: 30px 0;
-        border-radius:	0px 0px 20px 20px;`
-    }
+        border-radius:	0px 0px 20px 20px;
+        
+        @media (max-width: 1000px){
+    display: none;
+    };`
+  }
+
+
 
 
 `;
@@ -42,10 +49,13 @@ export const StyledFieldset = styled.fieldset`
 `;
 
 export const StyledSpinner = styled.div`
-
-${(props) => !props.display && css`
+  ${(props) => !props.display && css`
         display: none;`
-    }
+  }
+
+  @media (max-width: 1000px){
+    display: none;
+    };
     
   margin: -2px; 
   height: 25px;

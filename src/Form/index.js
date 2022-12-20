@@ -13,8 +13,7 @@ const Form = ({ calculateResult }) => {
     const [amountTo, setAmountTo] = useState("0.00");
     let disableInputData=true;
     const downloadStatus = useCurrenciesData();
-    let currenciesSymbols;
-    let message;
+    let currenciesSymbols, message, displaySpinner;
 
     const calculateFromTo = (amountFromTemp) => {
         setAmountTo(calculateResult(currencyFrom, currencyTo, amountFromTemp));
@@ -54,16 +53,19 @@ const Form = ({ calculateResult }) => {
         disableInputData=false;
         const updateDate = new Date();
         message=`ECB foreign exchange rates updated at ${shortFormatDate(updateDate)}`;
+        displaySpinner=false;
     }
     else if (downloadStatus === "rejected") {
         currenciesSymbols = [];
         disableInputData=true;
         message="Loading error. Check internet connection!";
+        displaySpinner=false;
     }
     else {
         currenciesSymbols = [];
         disableInputData=true;
         message="Loading ";
+        displaySpinner=true;
     }
 
     return (
@@ -88,7 +90,7 @@ const Form = ({ calculateResult }) => {
                 />
                 
             </StyledFieldset>
-            <StyledSection bottom>{message}<StyledSpinner display={true}></StyledSpinner></StyledSection>
+            <StyledSection bottom>{message}<StyledSpinner display={displaySpinner}></StyledSpinner></StyledSection>
         </StyledForm>
         
     );

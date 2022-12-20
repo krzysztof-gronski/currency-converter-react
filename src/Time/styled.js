@@ -7,7 +7,7 @@ export const StyledTimeContainer=styled.div`
     text-align: right;
     max-width: 536px;
     width: 100%;
-    margin: 22vh 0 0 -30px;
+    margin: ${(window.innerHeight-480)/2}px 0 0 -30px;
     font-family: 'Rajdhani', sans-serif;
     font-weight: bold;
 `;
