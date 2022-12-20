@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Select from "../Select";
 import Input from "../Input";
 import Panel from "../Panel";
-import { StyledForm, StyledFieldset, StyledSection } from "./styled.js";
+import { StyledForm, StyledFieldset, StyledSection, StyledSpinner } from "./styled.js";
 import { useCurrenciesData } from "../CurrenciesData/index";
 import { shortFormatDate } from "../Time/index";
 
@@ -63,7 +63,7 @@ const Form = ({ calculateResult }) => {
     else {
         currenciesSymbols = [];
         disableInputData=true;
-        message="Loading ...";
+        message="Loading ";
     }
 
     return (
@@ -88,7 +88,7 @@ const Form = ({ calculateResult }) => {
                 />
                 
             </StyledFieldset>
-            <StyledSection bottom>{message}</StyledSection>
+            <StyledSection bottom>{message}<StyledSpinner display={true}></StyledSpinner></StyledSection>
         </StyledForm>
         
     );

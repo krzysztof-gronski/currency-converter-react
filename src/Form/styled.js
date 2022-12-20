@@ -20,6 +20,9 @@ export const StyledSection = styled.section`
     
 
     ${(props) => props.bottom && css`
+        display: flex;
+        gap: 25px;
+        justify-content: center;
         margin-block-start: 7px;
         margin-block-end: 0px;
         margin-inline-start: 228px;
@@ -28,10 +31,40 @@ export const StyledSection = styled.section`
         padding: 30px 0;
         border-radius:	0px 0px 20px 20px;`
     }
+
+
 `;
 
 export const StyledFieldset = styled.fieldset`
     text-align: center;
     margin: -12px auto;
     border: none;
+`;
+
+export const StyledSpinner = styled.div`
+
+${(props) => !props.display && css`
+        display: none;`
+    }
+    
+  margin: -2px; 
+  height: 25px;
+  width: 25px;
+  border: 10px solid white;
+  border-radius: 50%;
+  border-top-color: transparent;
+  border-bottom-color: transparent;
+  animation: spin 0.8s linear infinite;
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    50% {
+      transform: rotate(180deg) scale(1.2);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+    
 `;
