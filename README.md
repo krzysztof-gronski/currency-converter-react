@@ -5,20 +5,20 @@ This application allows you to convert available currencies according to any sel
 
 ## Contents
 - User friendly interface
-- 4 currencies supported: EUR/USD/GBP/PLN
+- Support: fiat currencies from all over the world plus Bitcoin
 
 ## Technologies
 - HTML
 - CSS
 - JS ES6+
-- BEM convention
-- React
+- React (custom hooks, styled components)
+- API data fetch
 
 ## Features
 - Visual styling
 - Instant rate calculation
 
-> Currency exchange rates update: ***November 02, 2022***
+> European Central Bank foreign exchange rates - daily updates
 
 ## Demo
 https://krzysztof-gronski.github.io/currency-converter-react/
