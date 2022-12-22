@@ -3,32 +3,33 @@ import { useState, useEffect } from "react";
 const getCurrencyData = async (currencySymbol) => {
     const API_URL = "https://api.exchangerate.host/";
     const requestParameters = `latest?base=${currencySymbol}`;
-    
-        try {
-            const response = await fetch(`${API_URL}${requestParameters}`);
-            if (!response.ok) {
-                throw new Error(response.statusText);
-            }
-            const currencyData = await response.json();
-            return currencyData;
+
+    try {
+        const response = await fetch(`${API_URL}${requestParameters}`);
+        if (!response.ok) {
+            throw new Error(response.statusText);
         }
-        catch (error) {
-            console.error("Fetching data error: ", error);
-            return null;
-        }
+        const currencyData = await response.json();
+        return currencyData;
+    }
+    catch (error) {
+        console.error("Fetching data error: ", error);
+        return null;
+    }
 };
 
 const checkIsUpdateRequired = () => {
-	const lastUpdateDate = new Date(localStorage.getItem("updateDate")).getTime();
-	const currentDate = new Date().getTime();
+    const lastUpdateDate = new Date(localStorage.getItem("updateDate")).getTime();
+    const currentDate = new Date().getTime();
 
-	const isLastUpdateDateExist = !!localStorage.getItem("updateDate");
-	const isCurrenciesDataExist = !!localStorage.getItem("currenciesData");
-	const isCurrenciesSymbolsExist = !!localStorage.getItem("currenciesSymbols");
-	const isOneOfLocalStorageItemNotExist = !isLastUpdateDateExist || !isCurrenciesDataExist || !isCurrenciesSymbolsExist;
-	const isTimeToUpdate = (currentDate - lastUpdateDate) > 24 * 60 * 60 * 1000;
+    const isOneOfLocalStorageItemNotExist = [
+        localStorage.getItem("updateDate"),
+        localStorage.getItem("currenciesData"),
+        localStorage.getItem("currenciesSymbols")
+    ].some(item => !item);
+    const isTimeToUpdate = (currentDate - lastUpdateDate) > 24 * 60 * 60 * 1000;
 
-	return isOneOfLocalStorageItemNotExist || isTimeToUpdate;
+    return isOneOfLocalStorageItemNotExist || isTimeToUpdate;
 };
 
 export const useCurrenciesData = () => {
@@ -37,21 +38,21 @@ export const useCurrenciesData = () => {
     useEffect(() => {
         if (checkIsUpdateRequired()) {
             (async () => {
-                    let currencyData = await getCurrencyData("PLN");
-                    if (currencyData) {
-                        const currenciesSymbols = Object.keys(currencyData.rates);
-                        localStorage.setItem("currenciesSymbols", JSON.stringify(currenciesSymbols));
+                let currencyData = await getCurrencyData("PLN");
+                if (currencyData) {
+                    const currenciesSymbols = Object.keys(currencyData.rates);
+                    localStorage.setItem("currenciesSymbols", JSON.stringify(currenciesSymbols));
 
-                        const newCurrenciesData = await Promise.all(currenciesSymbols.map((_, currencySymbolIndex) => 
+                    const newCurrenciesData = await Promise.all(currenciesSymbols.map((_, currencySymbolIndex) =>
                         getCurrencyData(currenciesSymbols[currencySymbolIndex])));
 
-                        localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
-                        localStorage.setItem("updateDate", new Date().toISOString());
-                        setDownloadStatus("resolved");
-                    }
-                    else {
-                        setDownloadStatus("rejected");
-                    }
+                    localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
+                    localStorage.setItem("updateDate", new Date().toISOString());
+                    setDownloadStatus("resolved");
+                }
+                else {
+                    setDownloadStatus("rejected");
+                }
             })();
         }
         else {

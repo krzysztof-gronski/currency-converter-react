@@ -11,9 +11,17 @@ const Form = ({ calculateResult }) => {
     const [currencyTo, setCurrencyTo] = useState("USD");
     const [amountFrom, setAmountFrom] = useState("0.00");
     const [amountTo, setAmountTo] = useState("0.00");
-    let disableInputData = true;
     const downloadStatus = useCurrenciesData();
-    let currenciesSymbols, message, displaySpinner;
+    const renderData = {
+        currenciesSymbols: downloadStatus === "resolved" ? JSON.parse(localStorage.getItem("currenciesSymbols")) : [],
+        disableInputData: downloadStatus === "resolved" ? false : true,
+        message: downloadStatus === "resolved"
+            ? `ECB foreign exchange rates updated at ${shortFormatDate(new Date(localStorage.getItem("updateDate")))}`
+            : (downloadStatus === "rejected"
+                ? "Loading error. Check internet connection!"
+                : "Loading "),
+        displaySpinner: downloadStatus === "loading" ? true : false,
+    };
 
     const calculateFromTo = (amountFromTemp) => {
         setAmountTo(calculateResult(currencyFrom, currencyTo, amountFromTemp));
@@ -47,26 +55,6 @@ const Form = ({ calculateResult }) => {
         return !!newAmount ? parseFloat(newAmount) : "";
     };
 
-    if (downloadStatus === "resolved") {
-        currenciesSymbols = JSON.parse(localStorage.getItem("currenciesSymbols"));
-        disableInputData = false;
-        const updateDate = new Date();
-        message = `ECB foreign exchange rates updated at ${shortFormatDate(updateDate)}`;
-        displaySpinner = false;
-    }
-    else if (downloadStatus === "rejected") {
-        currenciesSymbols = [];
-        disableInputData = true;
-        message = "Loading error. Check internet connection!";
-        displaySpinner = false;
-    }
-    else {
-        currenciesSymbols = [];
-        disableInputData = true;
-        message = "Loading ";
-        displaySpinner = true;
-    }
-
     return (
         <StyledForm>
             <StyledFieldset>
@@ -74,21 +62,21 @@ const Form = ({ calculateResult }) => {
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} disabled={disableInputData} />
-                            <Select currencies={currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} disabled={disableInputData} />
+                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} disabled={renderData.disableInputData} />
+                            <Select currencies={renderData.currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} disabled={renderData.disableInputData} />
                         </React.Fragment>
                     }
                 />
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} disabled={disableInputData} />
-                            <Select currencies={currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} disabled={disableInputData} />
+                            <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} disabled={renderData.disableInputData} />
+                            <Select currencies={renderData.currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} disabled={renderData.disableInputData} />
                         </React.Fragment>
                     }
                 />
             </StyledFieldset>
-            <StyledSection bottom>{message}<StyledSpinner display={displaySpinner}></StyledSpinner></StyledSection>
+            <StyledSection bottom>{renderData.message}<StyledSpinner display={renderData.displaySpinner}></StyledSpinner></StyledSection>
         </StyledForm>
     );
 };
