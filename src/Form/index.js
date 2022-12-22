@@ -11,7 +11,7 @@ const Form = ({ calculateResult }) => {
     const [currencyTo, setCurrencyTo] = useState("USD");
     const [amountFrom, setAmountFrom] = useState("0.00");
     const [amountTo, setAmountTo] = useState("0.00");
-    let disableInputData=true;
+    let disableInputData = true;
     const downloadStatus = useCurrenciesData();
     let currenciesSymbols, message, displaySpinner;
 
@@ -34,7 +34,6 @@ const Form = ({ calculateResult }) => {
     const validate = (newAmount, amountFrom) => {
         if ((newAmount === "") && (amountFrom !== 0)) {
             newAmount = 0;
-
         }
         if (newAmount < 0) {
             newAmount = 0;
@@ -50,22 +49,22 @@ const Form = ({ calculateResult }) => {
 
     if (downloadStatus === "resolved") {
         currenciesSymbols = JSON.parse(localStorage.getItem("currenciesSymbols"));
-        disableInputData=false;
+        disableInputData = false;
         const updateDate = new Date();
-        message=`ECB foreign exchange rates updated at ${shortFormatDate(updateDate)}`;
-        displaySpinner=false;
+        message = `ECB foreign exchange rates updated at ${shortFormatDate(updateDate)}`;
+        displaySpinner = false;
     }
     else if (downloadStatus === "rejected") {
         currenciesSymbols = [];
-        disableInputData=true;
-        message="Loading error. Check internet connection!";
-        displaySpinner=false;
+        disableInputData = true;
+        message = "Loading error. Check internet connection!";
+        displaySpinner = false;
     }
     else {
         currenciesSymbols = [];
-        disableInputData=true;
-        message="Loading ";
-        displaySpinner=true;
+        disableInputData = true;
+        message = "Loading ";
+        displaySpinner = true;
     }
 
     return (
@@ -75,26 +74,23 @@ const Form = ({ calculateResult }) => {
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} disabled={disableInputData}/>
-                            <Select currencies={currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} disabled={disableInputData}/>
+                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} disabled={disableInputData} />
+                            <Select currencies={currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} disabled={disableInputData} />
                         </React.Fragment>
                     }
                 />
                 <Panel
                     body={
                         <React.Fragment>
-                            <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} disabled={disableInputData}/>
-                            <Select currencies={currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} disabled={disableInputData}/>
+                            <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} disabled={disableInputData} />
+                            <Select currencies={currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} disabled={disableInputData} />
                         </React.Fragment>
                     }
                 />
-                
             </StyledFieldset>
             <StyledSection bottom>{message}<StyledSpinner display={displaySpinner}></StyledSpinner></StyledSection>
         </StyledForm>
-        
     );
-
 };
 
 export default Form;

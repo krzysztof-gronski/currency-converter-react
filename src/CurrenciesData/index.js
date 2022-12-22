@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 
 let pending = false;
+let currencyData;
 
 const updateRequired = () => {
     const updateDate = new Date(localStorage.getItem("updateDate"));
@@ -19,53 +20,68 @@ const updateRequired = () => {
     return true;
 };
 
+const getCurrencyData = (res,currencySymbol) => {
+    const API_URL = "https://api.exchangerate.host/";
+    const requestParameters = `latest?base=${currencySymbol}`;
+    
+    (async () => {
+        try {
+            const response = await fetch(`${API_URL}${requestParameters}`);
+            if (!response.ok) {
+                throw new Error(response.statusText);
+            }
+            currencyData = await response.json();
+            //await new Promise((res) => setTimeout(res, 5000));
+           // alert(currencyData);
+            res();
+            return currencyData;
+        }
+        catch (error) {
+            console.error("Fetching data error: ", error);
+            res();
+            return null;
+        }
+    })();
+    return currencyData;
+};
+
 export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("pending");
-    
+
     useEffect(() => {
-        const API_URL = "https://api.exchangerate.host/";
-        let requestParameters = "latest?base=PLN";
         if (updateRequired()) {
             pending = true;
             (async () => {
-                try {
-                    const response = await fetch(`${API_URL}${requestParameters}`);
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
+                    await new Promise((res)=>getCurrencyData(res,"PLN"));
+                    //await new Promise((res) => setTimeout(res, 5000));
+                    //alert(currencyData);
+                    
+                    if (currencyData) {
+                        const currenciesSymbols = Object.keys(currencyData.rates);
+                        localStorage.setItem("currenciesSymbols", JSON.stringify(currenciesSymbols));
+
+                        let newCurrenciesData = [];
+                        for (const currencySymbolIndex in currenciesSymbols) {
+                                await getCurrencyData(currenciesSymbols[currencySymbolIndex]);
+                                newCurrenciesData = [...newCurrenciesData, currencyData];
+                        };
+                        localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
+                        localStorage.setItem("updateDate", new Date().toISOString());
+                        setDownloadStatus("resolved");
+                        alert("resolved");
+                        pending = false;
+
                     }
-                    const currencyData = await response.json();
-                    const currenciesSymbols = Object.keys(currencyData.rates);
-                    localStorage.setItem("currenciesSymbols", []);
-                    localStorage.setItem("currenciesSymbols", JSON.stringify(currenciesSymbols));
-                    localStorage.setItem("currenciesData", []);
-                    let newCurrenciesData = [];
-                    for (const currencySymbolIndex in currenciesSymbols) {
-                        try {
-                            requestParameters=`latest?base=${currenciesSymbols[currencySymbolIndex]}`;
-                            const response = await fetch(`${API_URL}${requestParameters}`);
-                            if (!response.ok) {
-                                throw new Error(response.statusText);
-                            }
-                            const currencyData = await response.json();
-                            newCurrenciesData = [...newCurrenciesData, currencyData];
-                        }
-                        catch (error) { console.error("Network error", error); }
-                    };
-                    await new Promise((res) => setTimeout(res, 10000));
-                    localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
-                    localStorage.setItem("updateDate", new Date().toISOString());
-                    setDownloadStatus("resolved");
-                    pending = false;
-                }
-                catch (error) {
-                    setDownloadStatus("rejected");
-                    console.error("Fetching data error: ", error);
-                }
+                    else {
+                        setDownloadStatus("rejected");
+                    }
             })();
         }
         else if (!pending) {
             setDownloadStatus("resolved");
         }
+        //return downloadStatus;
     }, []);
-    return downloadStatus;
+    
+
 };
