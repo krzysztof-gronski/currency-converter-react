@@ -18,14 +18,14 @@ function App() {
   };
 
   return (
-    <React.Fragment>
+    <>
       <Main>
         <Time />
         <Form calculateResult={calculateResult}>
         </Form>
       </Main>
       <Footer />
-    </React.Fragment>
+    </>
   );
 }
 

@@ -20,7 +20,7 @@ const Form = ({ calculateResult }) => {
             : (downloadStatus === "rejected"
                 ? "Loading error. Check internet connection!"
                 : "Loading "),
-        displaySpinner: downloadStatus === "loading" ? true : false,
+        displaySpinner: (downloadStatus === "loading" || downloadStatus === "pending") ? true : false,
     };
 
     const calculateFromTo = (amountFromTemp) => {
@@ -39,19 +39,17 @@ const Form = ({ calculateResult }) => {
         setAmountFrom(calculateResult(currencyFromTemp, currencyFrom, amountTo));
     };
 
-    const validate = (newAmount, amountFrom) => {
-        if ((newAmount === "") && (amountFrom !== 0)) {
-            newAmount = 0;
-        }
-        if (newAmount < 0) {
-            newAmount = 0;
-        }
-        if (newAmount > 0) {
-
-            if ((newAmount.includes(".")) && (newAmount.indexOf(".") < newAmount.length - 3)) {
+    const normalizeAmount = (newAmount, amountFrom) => {
+        switch(true){
+			case (newAmount === "") && (amountFrom !== 0): newAmount = 0; break;
+            case newAmount < 0: newAmount = 0; break;
+            case newAmount > 0: 
+            if((newAmount.includes(".")) && (newAmount.indexOf(".") < newAmount.length - 3)){
                 newAmount = amountFrom;
-            }
-        }
+            } 
+            break;
+            default: break;
+		}
         return !!newAmount ? parseFloat(newAmount) : "";
     };
 
@@ -61,18 +59,18 @@ const Form = ({ calculateResult }) => {
                 <StyledSection as="legend">INSTANT CURRENCY CONVERTER</StyledSection>
                 <Panel
                     body={
-                        <React.Fragment>
-                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={validate} calculateResult={calculateFromTo} disabled={renderData.disableInputData} />
+                        <>
+                            <Input amount={amountFrom} setAmount={setAmountFrom} validate={normalizeAmount} calculateResult={calculateFromTo} disabled={renderData.disableInputData} />
                             <Select currencies={renderData.currenciesSymbols} currency={currencyFrom} setCurrency={setCurrencyFrom} calculateResult={calculateFromToSelect} disabled={renderData.disableInputData} />
-                        </React.Fragment>
+                        </>
                     }
                 />
                 <Panel
                     body={
-                        <React.Fragment>
-                            <Input amount={amountTo} setAmount={setAmountTo} validate={validate} calculateResult={calculateToFrom} disabled={renderData.disableInputData} />
+                        <>
+                            <Input amount={amountTo} setAmount={setAmountTo} validate={normalizeAmount} calculateResult={calculateToFrom} disabled={renderData.disableInputData} />
                             <Select currencies={renderData.currenciesSymbols} currency={currencyTo} setCurrency={setCurrencyTo} calculateResult={calculateToFromSelect} disabled={renderData.disableInputData} />
-                        </React.Fragment>
+                        </>
                     }
                 />
             </StyledFieldset>

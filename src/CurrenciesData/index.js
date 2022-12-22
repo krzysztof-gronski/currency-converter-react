@@ -36,7 +36,10 @@ export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("loading");
 
     useEffect(() => {
-        if (checkIsUpdateRequired()) {
+        alert("effecr");
+        if (checkIsUpdateRequired() && downloadStatus !== "pending") {
+            setDownloadStatus("pending");
+            alert("pending");
             (async () => {
                 let currencyData = await getCurrencyData("PLN");
                 if (currencyData) {
