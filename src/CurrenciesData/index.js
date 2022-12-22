@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+let framesNr=1;  //double render test
 
 const getCurrencyData = async (currencySymbol) => {
     const API_URL = "https://api.exchangerate.host/";
@@ -29,7 +30,7 @@ const checkIsUpdateRequired = () => {
     ].some(item => !item);
     const isTimeToUpdate = (currentDate - lastUpdateDate) > 24 * 60 * 60 * 1000;
 
-    return isOneOfLocalStorageItemNotExist || isTimeToUpdate;
+    return true;  // double render test //isOneOfLocalStorageItemNotExist || isTimeToUpdate;
 };
 
 export const useCurrenciesData = () => {
@@ -38,6 +39,8 @@ export const useCurrenciesData = () => {
     useEffect(() => {
         if (checkIsUpdateRequired() && downloadStatus !== "pending") {
             setDownloadStatus("pending");
+            alert(`frame nr: ${framesNr} (alert inside useEffect)`);    //double render test
+            framesNr++;
             (async () => {
                 let currencyData = await getCurrencyData("PLN");
                 if (currencyData) {
@@ -49,6 +52,7 @@ export const useCurrenciesData = () => {
                     localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
                     localStorage.setItem("updateDate", new Date().toISOString());
                     setDownloadStatus("resolved");
+                    await new Promise((res)=>setTimeout(res,5000));
                 }
                 else {
                     setDownloadStatus("rejected");
