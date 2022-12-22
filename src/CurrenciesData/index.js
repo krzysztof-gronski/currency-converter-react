@@ -23,12 +23,13 @@ export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("pending");
     
     useEffect(() => {
-        //let currenciesSymbols = [];
+        const API_URL = "https://api.exchangerate.host/";
+        let requestParameters = "latest?base=PLN";
         if (updateRequired()) {
             pending = true;
             (async () => {
                 try {
-                    const response = await fetch("https://api.exchangerate.host/latest?base=PLN");
+                    const response = await fetch(`${API_URL}${requestParameters}`);
                     if (!response.ok) {
                         throw new Error(response.statusText);
                     }
@@ -40,7 +41,8 @@ export const useCurrenciesData = () => {
                     let newCurrenciesData = [];
                     for (const currencySymbolIndex in currenciesSymbols) {
                         try {
-                            const response = await fetch(`https://api.exchangerate.host/latest?base=${currenciesSymbols[currencySymbolIndex]}`);
+                            requestParameters=`latest?base=${currenciesSymbols[currencySymbolIndex]}`;
+                            const response = await fetch(`${API_URL}${requestParameters}`);
                             if (!response.ok) {
                                 throw new Error(response.statusText);
                             }
