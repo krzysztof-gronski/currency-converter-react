@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-let framesNr=1;  //double render test
 
 const getCurrencyData = async (currencySymbol) => {
     const API_URL = "https://api.exchangerate.host/";
@@ -35,12 +34,13 @@ const checkIsUpdateRequired = () => {
 
 export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("loading");
+    const [framesNr, setFramesNr] = useState(1);
 
     useEffect(() => {
         if (checkIsUpdateRequired() && downloadStatus !== "pending") {
             setDownloadStatus("pending");
             alert(`frame nr: ${framesNr} (alert inside useEffect)`);    //double render test
-            framesNr++;
+            setFramesNr(prev => prev + 1); 
             (async () => {
                 let currencyData = await getCurrencyData("PLN");
                 if (currencyData) {
