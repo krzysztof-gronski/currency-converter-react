@@ -36,10 +36,8 @@ export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("loading");
 
     useEffect(() => {
-        alert("effecr");
         if (checkIsUpdateRequired() && downloadStatus !== "pending") {
             setDownloadStatus("pending");
-            alert("pending");
             (async () => {
                 let currencyData = await getCurrencyData("PLN");
                 if (currencyData) {
@@ -48,7 +46,6 @@ export const useCurrenciesData = () => {
 
                     const newCurrenciesData = await Promise.all(currenciesSymbols.map((_, currencySymbolIndex) =>
                         getCurrencyData(currenciesSymbols[currencySymbolIndex])));
-
                     localStorage.setItem("currenciesData", JSON.stringify(newCurrenciesData));
                     localStorage.setItem("updateDate", new Date().toISOString());
                     setDownloadStatus("resolved");
@@ -63,5 +60,4 @@ export const useCurrenciesData = () => {
         }
     }, []);
     return downloadStatus;
-
 };

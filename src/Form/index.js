@@ -40,16 +40,16 @@ const Form = ({ calculateResult }) => {
     };
 
     const normalizeAmount = (newAmount, amountFrom) => {
-        switch(true){
-			case (newAmount === "") && (amountFrom !== 0): newAmount = 0; break;
+        switch (true) {
+            case (newAmount === "") && (amountFrom !== 0): newAmount = 0; break;
             case newAmount < 0: newAmount = 0; break;
-            case newAmount > 0: 
-            if((newAmount.includes(".")) && (newAmount.indexOf(".") < newAmount.length - 3)){
-                newAmount = amountFrom;
-            } 
-            break;
+            case newAmount > 0:
+                if ((newAmount.includes(".")) && (newAmount.indexOf(".") < newAmount.length - 3)) {
+                    newAmount = amountFrom;
+                }
+                break;
             default: break;
-		}
+        }
         return !!newAmount ? parseFloat(newAmount) : "";
     };
 
