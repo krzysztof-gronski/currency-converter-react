@@ -44,7 +44,7 @@ export const StyledFieldset = styled.fieldset`
 `;
 
 export const StyledSpinner = styled.div`
-  ${(props) => !props.display && css`
+  ${(props) => !props.displayProp && css`
         display: none;`
   }
 

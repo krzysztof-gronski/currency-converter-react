@@ -74,7 +74,7 @@ const Form = ({ calculateResult }) => {
                     }
                 />
             </StyledFieldset>
-            <StyledSection bottom>{renderData.message}<StyledSpinner display={renderData.displaySpinner}></StyledSpinner></StyledSection>
+            <StyledSection bottom>{renderData.message}<StyledSpinner displayProp={renderData.displaySpinner}></StyledSpinner></StyledSection>
         </StyledForm>
     );
 };

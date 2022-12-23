@@ -29,14 +29,16 @@ const checkIsUpdateRequired = () => {
     ].some(item => !item);
     const isTimeToUpdate = (currentDate - lastUpdateDate) > 24 * 60 * 60 * 1000;
 
-    return true;  // double render test //isOneOfLocalStorageItemNotExist || isTimeToUpdate;
+    return isOneOfLocalStorageItemNotExist || isTimeToUpdate;
 };
 
 export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("loading");
     const [framesNr, setFramesNr] = useState(1);
+    alert(`frame nr: ${framesNr} (alert outside useEffect)`); 
 
     useEffect(() => {
+        
         if (checkIsUpdateRequired() && downloadStatus !== "pending") {
             setDownloadStatus("pending");
             alert(`frame nr: ${framesNr} (alert inside useEffect)`);    //double render test
