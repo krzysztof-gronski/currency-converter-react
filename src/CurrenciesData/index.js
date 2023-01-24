@@ -34,14 +34,11 @@ const checkIsUpdateRequired = () => {
 
 export const useCurrenciesData = () => {
     const [downloadStatus, setDownloadStatus] = useState("loading");
-    const [framesNr, setFramesNr] = useState(1);
-    alert(`frame nr: ${framesNr} (alert outside useEffect)`); 
 
     useEffect(() => {
         
         if (checkIsUpdateRequired() && downloadStatus !== "pending") {
             setDownloadStatus("pending");
-            alert(`frame nr: ${framesNr} (alert inside useEffect)`);    //double render test
             setFramesNr(prev => prev + 1); 
             (async () => {
                 let currencyData = await getCurrencyData("PLN");
